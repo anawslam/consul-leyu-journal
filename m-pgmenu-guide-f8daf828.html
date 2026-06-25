@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pg导航 · 资料与索引的整理杂志</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f7f4ed;
+            font-family: Georgia, 'Times New Roman', 'Noto Serif SC', serif;
+            color: #2e2b26;
+            line-height: 1.75;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 840px;
+            margin: 0 auto;
+            padding: 2.5rem 1.8rem 3rem;
+        }
+
+        /* hero 横幅 — 杂志专题式 */
+        .hero {
+            background: #ece8dd;
+            padding: 3.2rem 2rem 2.8rem;
+            border-radius: 32px 32px 12px 12px;
+            margin-bottom: 2.8rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -14px;
+            left: 10%;
+            width: 80%;
+            height: 2px;
+            background: repeating-linear-gradient(90deg, #b8aa92 0px, #b8aa92 6px, transparent 6px, transparent 12px);
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: #3f3a33;
+            margin-bottom: 0.6rem;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: #6e6559;
+            max-width: 520px;
+            margin: 0.6rem auto 0;
+            font-style: italic;
+            border-top: 1px solid #d5cdbe;
+            padding-top: 1rem;
+        }
+
+        /* 背景说明（magazine note） */
+        .background-note {
+            background: #f1ede4;
+            border-left: 6px solid #b3a187;
+            padding: 1.4rem 1.8rem;
+            margin-bottom: 2.6rem;
+            border-radius: 0 14px 14px 0;
+            font-size: 0.98rem;
+            color: #403b34;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .background-note strong {
+            color: #5a4e3d;
+            font-weight: 600;
+        }
+
+        /* 三段自然介绍 — 杂志卡片风格 */
+        .intro-block {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-bottom: 2.8rem;
+        }
+
+        .intro-card {
+            background: #ffffffef;
+            padding: 1.8rem 2rem;
+            border-radius: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            border: 1px solid #e7e1d5;
+            transition: box-shadow 0.2s;
+        }
+
+        .intro-card:hover {
+            box-shadow: 0 8px 18px rgba(90, 78, 61, 0.04);
+        }
+
+        .intro-card h2 {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #4b433b;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.3rem;
+            border-bottom: 1px dashed #d7cfc0;
+            display: inline-block;
+        }
+
+        .intro-card p {
+            margin-bottom: 0.9rem;
+            color: #3c3730;
+        }
+
+        .intro-card a {
+            color: #7c6b54;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-color: #c9bca8;
+            transition: color 0.2s;
+        }
+
+        .intro-card a:hover {
+            color: #3f3223;
+            text-decoration-color: #7c6b54;
+        }
+
+        /* 引用框 / 提示框 */
+        .highlight-box {
+            background: #eae4d9;
+            padding: 1.4rem 1.6rem;
+            border-radius: 24px 8px 24px 8px;
+            margin: 1.8rem 0 2.4rem;
+            font-size: 0.96rem;
+            border: 1px solid #d7ccba;
+            color: #3a342b;
+        }
+
+        .highlight-box::before {
+            content: '📌 编读笔记';
+            display: block;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #8b7b66;
+            margin-bottom: 0.5rem;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-weight: 500;
+        }
+
+        .highlight-box a {
+            color: #5f4e38;
+            text-decoration: underline wavy #b3a187 1px;
+            text-underline-offset: 4px;
+        }
+
+        .highlight-box a:hover {
+            color: #2f251b;
+        }
+
+        /* FAQ 摘要 */
+        .faq-digest {
+            margin: 2rem 0;
+            padding: 0.2rem 0;
+        }
+
+        .faq-digest summary {
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: #4f453b;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #ded5c6;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .faq-digest summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-digest summary::before {
+            content: '▸';
+            color: #9b8b75;
+            font-size: 1.2rem;
+            transition: transform 0.2s;
+        }
+
+        .faq-digest[open] summary::before {
+            content: '▾';
+        }
+
+        .faq-digest .faq-content {
+            padding: 0.8rem 0.6rem 1.2rem 1.6rem;
+            color: #3f3a32;
+            border-left: 2px dotted #c5b8a4;
+            margin-left: 0.4rem;
+            margin-top: 0.2rem;
+        }
+
+        .faq-digest .faq-content a {
+            color: #6f5e48;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+        }
+
+        /* 页尾访问提示 */
+        .footer-visit {
+            margin-top: 2.8rem;
+            padding: 1.8rem 0 0.8rem;
+            border-top: 1px solid #ddd3c2;
+            text-align: center;
+            font-size: 1rem;
+            color: #5e5548;
+        }
+
+        .footer-visit .visit-inner {
+            background: #ece6db;
+            display: inline-block;
+            padding: 0.8rem 2.2rem;
+            border-radius: 60px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            font-style: normal;
+        }
+
+        .footer-visit a {
+            color: #4b3f30;
+            font-weight: 500;
+            text-decoration: underline wavy #b3a187 1.5px;
+            text-underline-offset: 4px;
+        }
+
+        .footer-visit a:hover {
+            color: #1f1812;
+        }
+
+        .footer-note {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #8b7f6e;
+        }
+
+        /* 响应式细节 */
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem 1rem 2rem;
+            }
+            .hero h1 {
+                font-size: 1.9rem;
+            }
+            .hero {
+                padding: 2.2rem 1.2rem;
+            }
+            .intro-card {
+                padding: 1.4rem;
+            }
+            .highlight-box {
+                padding: 1rem;
+            }
+            .faq-digest summary {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- 首页横幅 hero -->
+    <div class="hero">
+        <h1>pg导航 · 索引杂志</h1>
+        <p>从日常资料整理到信息线索的轻巧入口</p>
+    </div>
+
+    <!-- 背景说明 -->
+    <div class="background-note">
+        <strong>关于这份整理</strong> — 我们身边充斥着散落的信息：书签、截图、备忘录、聊天记录。<br>
+        <strong>pg导航</strong> 的出发点很朴素：把那些容易被冲散的资料线索，用索引的方式重新归拢。它不是大而全的仓库，更像是一本随时可以翻阅的杂志，每一页都指向你真正需要的内容。
+    </div>
+
+    <!-- 三段自然介绍 -->
+    <div class="intro-block">
+        <div class="intro-card">
+            <h2>线索而非终点</h2>
+            <p>一个好的索引不该让人迷失。无论是工作项目的参考资料，还是兴趣领域的推荐集合，<a href="https://m-pgmenu.com">pg导航</a> 都尽量让每条信息自带上下文。你打开的不仅是一个链接，而是一小段整理的逻辑。</p>
+            <p>就像杂志里的专题导览，目录本身就是阅读的起点。</p>
+        </div>
+
+        <div class="intro-card">
+            <h2>日常的归档节奏</h2>
+            <p>不需要等到「有空再整理」。遇到一篇好文章、一个实用工具、一段有启发的播客，顺手记下，分类并不复杂。pg导航 的索引结构更接近个人笔记的延伸——按主题聚合，但保留发现的随机性。</p>
+            <p>资料整理不必成为负担，反而是一种温和的积累。</p>
+        </div>
+
+        <div class="intro-card">
+            <h2>从索引到探索</h2>
+            <p>信息太多的时候，我们往往需要一条小径。这个站点不追求覆盖一切，而是挑选那些经得起回看的内容。比如某些领域的入门指南、被反复验证的工具链、或者只是某人用心写下的清单。</p>
+            <p>顺着索引走下去，常常能遇见意料之外的延伸。这也是为什么我们始终把它当作一份索引杂志来对待。</p>
+        </div>
+    </div>
+
+    <!-- 提示框 / 引用块 -->
+    <div class="highlight-box">
+        如果你已经在使用 <a href="https://m-pgmenu.com">pg导航</a>，大概会发现它的更新节奏有点像纸质刊物——不频繁，但每次都有新的专题或分类。我们更在意索引本身的质感，而不是数量。
+    </div>
+
+    <!-- FAQ 摘要 (折叠) -->
+    <details class="faq-digest">
+        <summary>一些常见的问题</summary>
+        <div class="faq-content">
+            <p><strong>这个导航适合哪些人？</strong> 喜欢自己动手整理资料的人，或者偶尔需要从信息堆里快速抽身的人。它不替你判断，只是帮你记得在哪里见过。</p>
+            <p><strong>索引多久更新一次？</strong> 没有固定日程。当你发现某个分类下多了一两条新线索，那就是编辑觉得值得收录的时刻。</p>
+            <p><strong>我也想推荐条目，可以吗？</strong> 目前以编辑自主整理为主，但每期专题都会参考社区里反复出现的需求。你可以通过站内线索页面了解当前关注的方向。</p>
+            <p style="margin-top:0.5rem;">→ 更具体的说明，可以直接翻阅 <a href="https://m-pgmenu.com">pg导航</a> 上的分类页。</p>
+        </div>
+    </details>
+
+    <!-- 页尾访问提示 -->
+    <div class="footer-visit">
+        <div class="visit-inner">
+            <span>继续翻阅 · </span><a href="https://m-pgmenu.com">pg导航</a>
+        </div>
+        <div class="footer-note">
+            一份关于资料整理与索引的轻杂志 · 保持自然的积累
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
